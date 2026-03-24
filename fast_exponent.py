@@ -1,28 +1,30 @@
 def main():
-
     base = int(input("Enter the base: "))
     exp = int(input("Enter the exponent: "))
     mod = int(input("Enter the modulus: "))
-    bin_rep = bin(exp)[2:]
-    print(bin_rep)
-    runs = len(bin_rep)
-    results: dict[int, int] = dict()
 
-    for i in range(runs):
+    # Reverse the string so bin_rep[0] is the 2^0 bit
+    bin_rep = bin(exp)[2:][::-1]
+
+    results = {}
+    # 1. Square Phase
+    for i in range(len(bin_rep)):
         if i == 0:
             results[i] = base % mod
         else:
-            last_mod = results.get(i - 1, base)
-            curr_mod = (last_mod * last_mod) % mod
-            results[i] = curr_mod
+            results[i] = (results[i - 1] ** 2) % mod
 
+    # 2. Multiply Phase
     running_mul = 1
-    for i in range(runs - 1, -1, -1):
+    for i in range(len(bin_rep)):
         if bin_rep[i] == "1":
-            print(f"Multiplying by {results.get(i, base)}")
-            running_mul = running_mul * results.get(i, base)
+            # Multiply and Modulo immediately to prevent overflow
+            running_mul = (running_mul * results[i]) % mod
+            print(
+                f"Multiplying by {base}^{2**i} ({results[i]}), Current: {running_mul}"
+            )
 
-    print(f"{base}^{exp} mod {mod} = {running_mul % mod}")
+    print(f"\nResult: {running_mul}")
 
 
 if __name__ == "__main__":
