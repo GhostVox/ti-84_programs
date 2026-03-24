@@ -1,31 +1,23 @@
-def main():
-    base = int(input("Enter the base: "))
-    exp = int(input("Enter the exponent: "))
-    mod = int(input("Enter the modulus: "))
+def fast_mod_pow(base, exp, mod):
+    result = 1
+    base = base % mod  # Initial reduction
 
-    # Reverse the string so bin_rep[0] is the 2^0 bit
-    bin_rep = bin(exp)[2:][::-1]
+    while exp > 0:
+        # If the current bit is 1, multiply the result
+        if exp % 2 == 1:
+            result = (result * base) % mod
 
-    results = {}
-    # 1. Square Phase
-    for i in range(len(bin_rep)):
-        if i == 0:
-            results[i] = base % mod
-        else:
-            results[i] = (results[i - 1] ** 2) % mod
+        # Square the base for the next bit
+        base = (base * base) % mod
 
-    # 2. Multiply Phase
-    running_mul = 1
-    for i in range(len(bin_rep)):
-        if bin_rep[i] == "1":
-            # Multiply and Modulo immediately to prevent overflow
-            running_mul = (running_mul * results[i]) % mod
-            print(
-                f"Multiplying by {base}^{2**i} ({results[i]}), Current: {running_mul}"
-            )
+        # Shift the exponent right by 1 bit (integer division by 2)
+        exp //= 2
 
-    print(f"\nResult: {running_mul}")
+    return result
 
 
-if __name__ == "__main__":
-    main()
+# Usage
+base = int(input("Enter:base"))
+exponent = int(input("Enter exponent"))
+mod = int(input("Enter modulos"))
+print(fast_mod_pow(base, exponent, mod))  # Output: 644
