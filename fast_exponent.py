@@ -17,7 +17,10 @@ def fast_mod_pow(base, exp, mod):
 
 
 # Usage
-base = int(input("Enter:base"))
-exponent = int(input("Enter exponent"))
-mod = int(input("Enter modulos"))
-print(fast_mod_pow(base, exponent, mod))  # Output: 644
+base = int(input("Enter base:\n"))
+exponent = int(input("Enter exponent:\n"))
+mod = int(input("Enter modulos:\n"))
+answer = fast_mod_pow(base, exponent, mod)
+print()
+result = str(answer) + "mod" + str(mod)
+print(result)

@@ -5,14 +5,19 @@ def ext_gcd(a, b):
     return g, y, x - (a // b) * y
 
 
-def main():
-    a = int(input("a: "))
-    b = int(input("b: "))
-    g, x, y = ext_gcd(a, b)
-    print("gcd:", g)
-    print("x:", x)
-    print("y:", y)
-
-
-if __name__ == "__main__":
-    main()
+inverse = 0
+a = int(input("a: "))
+b = int(input("b: "))
+g, x, y = ext_gcd(a, b)
+if g == 1:
+    inverse = x % b
+elif (x * a) % b == 1:
+    inverse = x
+elif (y * a) % b == 1:
+    inverse = y
+else:
+    inverse = "None"
+print("gcd:", g)
+print("x:", x)
+print("y:", y)
+print("inverse:", inverse)
